@@ -69,3 +69,30 @@ Do not depend on control coordinates or screen positions.
 ## Database
 
 Connection string (in `AppDbContext`): `Server=(localdb)\MSSQLLocalDB;Database=StudentManagement;Trusted_Connection=True;`. Database creation/migrations are added in later steps.
+
+## Development history (prompts)
+
+This project was built incrementally, one prompt at a time:
+
+- **Prompt 1 — Solution scaffold.** Created `FlaUI.WinForms.Learning.sln` with three projects: `StudentManagement.WinForms` (WinForms, .NET Framework 4.8), `StudentManagement.Data` (EF Core entities + DbContext + LocalDB), and `StudentManagement.Tests.UI` (NUnit + FlaUI.UIA3). Documented EF Core 3.1 end-of-support (last EF Core branch supporting .NET Framework 4.8).
+- **Prompt 2 — WinForms application.** Built the 4 tabs (Students, Courses, Student Listing, Enrollment) with registration controls, validation, MessageBox dialogs, and sample data.
+- **Prompt 3 — SQL Server + EF Core.** Connected to LocalDB via `AppDbContext`, `EnsureCreated`, idempotent seed, CRUD operations for students, courses, and enrollments.
+- **Prompt 4 — First FlaUI automation tests.** Application launch, window discovery, textbox interaction, button clicks (9 tests).
+- **Prompt 5 — DataGridView automation.** Grid discovery, columns, rows, cells, selection, and data verification, including add-course and enroll flows (8 tests).
+
+## Why FlaUI (and why not TestComplete)
+
+- **FlaUI** is free, open-source (MIT), built on native Windows UI Automation (UIA2/UIA3), and integrates with NUnit/xUnit/MSTest. There is no license cost, no vendor lock-in, and skills transfer across any .NET desktop project. It is ideal for learning.
+- **TestComplete** (SmartBear) is a commercial, paid tool with per-seat licensing, proprietary scripting, and a heavier setup. We intentionally do **not** use it, to keep the learning stack free, transparent, and transferable. FlaUI gives us the same core capability — automating Windows Forms controls — at zero cost.
+
+## Next goal
+
+The next phase will introduce **Infragistics WinForms controls** (third-party/commercial controls) and automate them with FlaUI, to learn how to handle non-standard control automation (custom AutomationIds, composite controls, vendor-specific grids). This will be developed on a separate branch and merged via Pull Request.
+
+## What's better for learning (and for new devs)
+
+- Start with standard WinForms controls and stable, meaningful `AutomationId`/`Name` values.
+- Keep architecture flat — no unnecessary repositories, abstractions, or patterns.
+- Write small, focused UI tests; discover controls semantically (by AutomationId/Name), never by coordinates.
+- Use free tooling (FlaUI + NUnit) so the skills transfer to any project.
+- Build incrementally: scaffold → app → data → first tests → grids → advanced scenarios.
