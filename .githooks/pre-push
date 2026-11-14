@@ -1,0 +1,14 @@
+#!/bin/sh
+# Block direct pushes to protected branches.
+protected_branch="main"
+current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+if [ "$current_branch" = "$protected_branch" ]; then
+    echo "ERROR: Direct push to '$protected_branch' is blocked."
+    echo "Create a feature branch and open a pull request instead:"
+    echo "  git checkout -b feature/<short-description>"
+    echo "  git push -u origin feature/<short-description>"
+    exit 1
+fi
+
+exit 0
