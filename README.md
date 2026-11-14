@@ -60,6 +60,42 @@ The app opens with four tabs: **Students**, **Courses**, **Student Listing**, **
 
 The test project currently contains only a smoke test; full FlaUI interaction tests are added incrementally.
 
+## Screenshots and reporting
+
+UI tests capture screenshots and write a simple text report to help diagnose failures.
+
+### Automatic screenshots (failed / errored tests)
+
+- When a test does **not** pass (failed or errored), `UiTestBase.TearDown` captures a screenshot of the main window and attaches it to the NUnit result via `TestContext.AddTestAttachment`.
+- Screenshots are saved under the test output folder:
+  - `<test output>/Screenshots/<TestName>_<timestamp>.png`
+- In Visual Studio Test Explorer, open the failed test and view **Attachments** to see the screenshot. In `.trx`/CI output, attachments are listed with the test result.
+
+### Manual screenshots (any scenario)
+
+Use `ScreenshotHelper` to capture a window or control at any point in a test:
+
+```csharp
+var path = ScreenshotHelper.CaptureWindow(MainWindow, "AfterSave");
+var btnPath = ScreenshotHelper.CaptureElement(FindButton("btnSave"), "SaveButton");
+```
+
+Both methods create the `Screenshots` folder if needed and return the saved file path.
+
+### Test report
+
+- A plain-text report is written incrementally as tests run:
+  - `<test output>/TestReport.txt`
+- Each line contains timestamp, test name, status, and (on failure) the message:
+  - `[2026-...] TestName: Failed - ...`
+- The report is reset once per test run by `TestSuiteSetup` (`[SetUpFixture]`).
+
+### Notes
+
+- Automatic screenshots are only taken for non-passing tests to keep successful runs fast and avoid large output folders.
+- Manual capture can be used in passing tests or for documentation purposes.
+
+
 ## Automation identifiers
 
 All interactive controls have stable `Name` (and `AccessibleName`) values so FlaUI can discover them by `AutomationId`/`Name`, e.g. `txtFirstName`, `txtLastName`, `txtEmail`, `rdoMale`, `rdoFemale`, `cmbCourse`, `dtpDateOfBirth`, `chkActive`, `btnSave`, `btnClear`, `dgvStudents`, `tabStudents`, `tabCourses`, `tabStudentListing`, `tabEnrollment`, `cmbStudent`, `cmbCourseEnroll`, `btnEnroll`, `btnAddCourse`, `dgvCourses`.
@@ -79,6 +115,11 @@ This project was built incrementally, one prompt at a time:
 - **Prompt 3 — SQL Server + EF Core.** Connected to LocalDB via `AppDbContext`, `EnsureCreated`, idempotent seed, CRUD operations for students, courses, and enrollments.
 - **Prompt 4 — First FlaUI automation tests.** Application launch, window discovery, textbox interaction, button clicks (9 tests).
 - **Prompt 5 — DataGridView automation.** Grid discovery, columns, rows, cells, selection, and data verification, including add-course and enroll flows (8 tests).
+- **Prompt 6 — Complete the learning test suite.** Added dropdown, checkbox, tab, validation-message, dialog, screenshot, and reporting tests, plus shared `UiTestBase`, `ScreenshotHelper`, `ReportHelper`, and a `[SetUpFixture]` report reset.
+  - Tests: `DropdownTests`, `CheckboxTests`, `TabTests`, `ValidationMessageTests`, `DialogTests`, `ScreenshotTests`, `ReportingTests`.
+  - Infrastructure: `UiTestBase` (shared setup/teardown, find helpers, `SelectTab`, `ClickAndDismiss`, `GetComboBoxItems`), `ScreenshotHelper`, `ReportHelper`, `TestSuiteSetup`.
+  - Screenshots are captured automatically on failed/errored tests and attached to NUnit results; manual capture is available via `ScreenshotHelper`.
+  - A per-run text report is written to `<test output>/TestReport.txt`.
 
 ## Why FlaUI (and why not TestComplete)
 
