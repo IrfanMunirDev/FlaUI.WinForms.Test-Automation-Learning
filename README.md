@@ -95,6 +95,7 @@ Both methods create the `Screenshots` folder if needed and return the saved file
 - Automatic screenshots are only taken for non-passing tests to keep successful runs fast and avoid large output folders.
 - Manual capture can be used in passing tests or for documentation purposes.
 
+
 ## Automation identifiers
 
 All interactive controls have stable `Name` (and `AccessibleName`) values so FlaUI can discover them by `AutomationId`/`Name`, e.g. `txtFirstName`, `txtLastName`, `txtEmail`, `rdoMale`, `rdoFemale`, `cmbCourse`, `dtpDateOfBirth`, `chkActive`, `btnSave`, `btnClear`, `dgvStudents`, `tabStudents`, `tabCourses`, `tabStudentListing`, `tabEnrollment`, `cmbStudent`, `cmbCourseEnroll`, `btnEnroll`, `btnAddCourse`, `dgvCourses`.
