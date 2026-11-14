@@ -1,0 +1,38 @@
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## NuGet
+*.nupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+## .NET
+project.lock.json
+project.fragment.lock.json
+
+## Database
+*.mdf
+*.ldf
+*.ndf
+
+## Misc
+*.cache
+*.tmp
+*.temp
+Thumbs.db
+.DS_Store
+
+## Test results
+TestResults/
+*.trx
