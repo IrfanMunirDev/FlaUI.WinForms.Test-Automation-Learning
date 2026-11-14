@@ -85,10 +85,18 @@ Both methods create the `Screenshots` folder if needed and return the saved file
 ### Test report
 
 - A plain-text report is written incrementally as tests run:
-  - `<test output>/TestReport.txt`
-- Each line contains timestamp, test name, status, and (on failure) the message:
-  - `[2026-...] TestName: Failed - ...`
+  - `StudentManagement.Tests.UI\\bin\\Debug\\net48\\TestReport.txt`
+- An HTML report is generated at the end of the run:
+  - `StudentManagement.Tests.UI\\bin\\Debug\\net48\\TestReport.html`
+- Each entry contains timestamp, test class, test name, status, and (on failure) the message.
+- Failed tests include the screenshot path (relative, under `Screenshots/`) and an embedded image in the HTML report.
 - The report is reset once per test run by `TestSuiteSetup` (`[SetUpFixture]`).
+
+### Exact output paths
+
+- Screenshots: `StudentManagement.Tests.UI\\bin\\Debug\\net48\\Screenshots\\*.png`
+- Text report: `StudentManagement.Tests.UI\\bin\\Debug\\net48\\TestReport.txt`
+- HTML report: `StudentManagement.Tests.UI\\bin\\Debug\\net48\\TestReport.html`
 
 ### Notes
 

@@ -30,17 +30,19 @@ namespace StudentManagement.Tests.UI.Tests
         {
             var ctx = TestContext.CurrentContext;
             var status = ctx.Result.Outcome.Status.ToString();
-            ReportHelper.Record(ctx.Test.Name, status, ctx.Result.Message);
+            string screenshotPath = null;
 
             if (status != "Passed" && MainWindow != null)
             {
                 try
                 {
-                    var path = ScreenshotHelper.CaptureWindow(MainWindow, ctx.Test.Name);
-                    TestContext.AddTestAttachment(path);
+                    screenshotPath = ScreenshotHelper.CaptureWindow(MainWindow, ctx.Test.Name);
+                    TestContext.AddTestAttachment(screenshotPath);
                 }
                 catch { }
             }
+
+            ReportHelper.Record(ctx.Test.Name, GetType().Name, status, ctx.Result.Message, screenshotPath);
 
             Automation?.Dispose();
             if (App != null && !App.HasExited) App.Close();

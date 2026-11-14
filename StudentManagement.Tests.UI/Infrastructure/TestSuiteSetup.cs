@@ -1,8 +1,9 @@
+using System;
 using System.IO;
 using NUnit.Framework;
 using StudentManagement.Tests.UI.Infrastructure;
 
-namespace StudentManagement.Tests.UI.Infrastructure
+namespace StudentManagement.Tests.UI
 {
     [SetUpFixture]
     public class TestSuiteSetup
@@ -12,6 +13,13 @@ namespace StudentManagement.Tests.UI.Infrastructure
         {
             ReportHelper.Reset();
             Directory.CreateDirectory(ScreenshotHelper.OutputDirectory);
+        }
+
+        [OneTimeTearDown]
+        public void RunAfterAllTests()
+        {
+            ReportHelper.GenerateSummary();
+            ReportHelper.GenerateHtml();
         }
     }
 }
